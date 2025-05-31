@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login</title>
+      <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="style.css">
+    <link rel="icon" href="IMG_20250427_212204.png">
+</head>
+<body>
+     <header class="navbar flex justify-between items-center w-[90%] mx-auto p-2 pr-4 pl-4 backdrop-blur-md bg-blue/10 rounded-lg fixed top-5 left-1/2 z-50 transform -translate-x-1/2">
+    </div>
+    <nav class="flex pr-4">
+      <ul class="hidden md:flex space-x-6 font-bold select-none text-blue-50">
+        <div class="logo w-12 h-12 select-none">
+      <img  src="IMG_20250427_212204.png"alt="SkillBazzar logo" style="height : 40px; width: 50px; border-radius: 50%;">
+    </div>
+        <li class="p-1 relative after:block after:w-0 after:h-[2px] after:bg-sky-400 after:absolute after:left-0 after:bottom-0 after:transition-all after:duration-300 hover:after:w-full"><a href="#home">SKILL BAZZAR</a></li>
+      </ul>
+    </nav>
+    <div class="harmburger md:hidden pr-2">
+      <i class="fa-solid fa-bars text-white"></i></i>
+    </div>
+  </header>
+
+  <div class="login-container">
+    <form id="loginForm" class="loginForm">
+      <h2>Welcome to Skill Bazzar</h2>
+      <input id="email" type="email" placeholder="Email" required />
+      <input id="password" type="password" placeholder="Password" required />
+      <button type="submit">Login</button>
+      <p class="signup-link">
+        Don't have an account? <a href="register.html">Sign Up</a>
+      </p>
+    </form>
+
+    <script>
+        const form = document.getElementById('loginForm');
+        form.addEventListener('submit', async (e) => {
+          e.preventDefault();
+    
+          const email = document.getElementById('email').value.trim();
+          const password = document.getElementById('password').value;
+    
+          try {
+            const res = await fetch('http://localhost:5000/api/auth/login', {
+              method: 'POST',
+              headers: {
+                'Content-Type': 'application/json'
+              },
+              body: JSON.stringify({ email, password })
+            });
+    
+            const data = await res.json();
+    
+            if (res.ok) {
+              alert('Login successful!');
+              localStorage.setItem('token', data.token);
+              window.location.href = 'main.html';
+            } else {
+              alert(data.message || 'Invalid credentials');
+            }
+          } catch (err) {
+            console.error('Login error:', err);
+            alert('Server error. Try again later.');
+          }
+        });
+      </script>
+  </div>
+</body>
+</html>

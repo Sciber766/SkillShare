@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=2.0"/>
+  <title>Register In Skill Bazzar</title>
+  <link rel="stylesheet" href="style2.css" />
+</head>
+<body>
+  <div class="container">
+    <div class="form-box">
+      <h2>Register</h2>
+      <form id="registerForm">
+        <label for="name">Full Name</label>
+        <input type="text" id="name" placeholder="Enter your name" required />
+
+        <label for="email">Email address</label>
+        <input type="email" id="email" placeholder="Enter your email" required />
+
+        <label for="password">Password</label>
+        <input type="password" id="password" placeholder="Enter your password" required />
+
+        <label for="confirm">Confirm Password</label>
+        <input type="password" id="confirm" placeholder="Confirm your password" required />
+
+        <button type="submit">Register</button>
+        <p class="signup-link">
+            Already have an account? <a href="login.html">Login</a>
+          </p>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    const form = document.getElementById('registerForm');
+  
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+  
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const password = document.getElementById('password').value;
+      const confirm = document.getElementById('confirm').value;
+  
+      if (password !== confirm) {
+        alert('Passwords do not match');
+        return;
+      }
+  
+      try {
+        const res = await fetch('http://localhost:5000/api/auth/register', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify({ name, email, password })
+        });
+  
+        const data = await res.json();
+  
+        if (res.ok) {
+          alert('Registered successfully! Redirecting to login...');
+          window.location.href = 'login.html';
+        } else {
+          alert(data.message || 'Something went wrong');
+        }
+      } catch (err) {
+        console.error('Error:', err);
+        alert('Server error. Try again later.');
+      }
+    });
+  </script>
+  
+</body>
+</html>

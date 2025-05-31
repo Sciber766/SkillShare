@@ -1,4 +1,4 @@
-const servUrl = 'http://localhost:5000/api/auth/';
+const servUrl = 'https://skillshare-95ud.onrender.com/api/auth/';
 
 const token = localStorage.getItem('token');
     if (!token) {
